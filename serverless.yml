@@ -60,10 +60,8 @@ functions:
   weekRange:
     handler: handler.weekRange
     events:
-      - http:
-          path: weekRange
-          method: get
-      - schedule: cron(0 0 3 ? * MON *)
+       - schedule:
+          rate: cron(0 0 3 ? * MON *)
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
