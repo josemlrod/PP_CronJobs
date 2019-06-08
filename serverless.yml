@@ -57,12 +57,6 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: hello
-          method: post
   weekRange:
     handler: handler.weekRange
     events:
