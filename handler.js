@@ -2,9 +2,6 @@
 const axios = require('axios');
 const moment = require('moment-timezone');
 
-// GLOBAL VARIABLES
-const baseUrl = `localhost:11235`
-
 'use strict';
 
 module.exports.hello = async (event, context) => {
@@ -30,22 +27,21 @@ module.exports.weekRange = async (event, context) => {
   const weekStart = moment.tz(currDate, 'America/New_York').format('MM/DD/YYYY');
   const weekEnd = moment.tz(endOfWeekDate, 'America/New_York').format('MM/DD/YYYY');
 
-  /*
-    TODO:
-      * change all meals on meal_schedule to false
-      * use the range of dates to change the meals that are contained
-        between those dates and make them currWeek meals
-  */
+  const allMealsToFalse = await axios.put('http://pantry-managementbe.herokuapp.com/mealSchedule/current/', {
+    current_week: 'false',
+  });
 
-  const allMealsToFalse = axios.put('http://pantry-managementbe.herokuapp.com/mealSchedule/current/', {
-    current_week: 'true',
+  const setWeeksMeals = await axios.put('http://pantry-managementbe.herokuapp.com/mealSchedule/current/toTrue?', {
+    fromDate: weekStart,
+    toDate: weekEnd,
   });
 
   return {
     statusCode: 200,
     body: JSON.stringify({
       dateRange: [weekStart, weekEnd,],
-      allScheduledMeals,
+      first: allMealsToFalse,
+      then: setWeeksMeals,
     }), 
   };
 };
