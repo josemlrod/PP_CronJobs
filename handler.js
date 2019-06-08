@@ -40,8 +40,6 @@ module.exports.weekRange = async (event, context) => {
     statusCode: 200,
     body: JSON.stringify({
       dateRange: [weekStart, weekEnd,],
-      first: allMealsToFalse,
-      then: setWeeksMeals,
     }), 
   };
 };
